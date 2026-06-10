@@ -96,7 +96,9 @@ body::after {
   width: min(100%, 350px);
   height: auto;
   display: block;
-  margin: 0 auto 0.25rem;
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+  margin-left: calc(50% - 175px + 7px);
   filter: drop-shadow(0 18px 30px rgba(0, 3, 70, 0.06));
 }
 
