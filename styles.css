@@ -1,0 +1,304 @@
+:root {
+  --theme-color1: #fe9132;
+  --theme-color1-lighter: #feaf6a;
+  --theme-color1-darker: #f77401;
+  --theme-color2: #000346;
+  --theme-color2-lighter: #00057e;
+  --theme-color2-darker: #00010e;
+  --surface: rgba(255, 255, 255, 0.82);
+  --surface-border: rgba(0, 3, 70, 0.08);
+  --copy-strong: rgba(0, 3, 70, 0.92);
+  --copy: rgba(0, 3, 70, 0.72);
+  --copy-soft: rgba(0, 3, 70, 0.42);
+  --shadow: 0 28px 72px rgba(0, 3, 70, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: "Outfit", sans-serif;
+  color: var(--copy);
+  background:
+    radial-gradient(circle at top center, rgba(254, 145, 50, 0.13), transparent 28%),
+    radial-gradient(circle at 18% 22%, rgba(0, 3, 70, 0.05), transparent 24%),
+    radial-gradient(circle at 82% 28%, rgba(254, 145, 50, 0.08), transparent 18%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.94)),
+    #fff;
+}
+
+body::before,
+body::after {
+  position: fixed;
+  content: "";
+  inset: auto;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  top: -10vh;
+  left: -10vw;
+  width: 34vw;
+  height: 34vw;
+  min-width: 280px;
+  min-height: 280px;
+  background: radial-gradient(circle, rgba(254, 145, 50, 0.12), transparent 68%);
+  filter: blur(10px);
+}
+
+body::after {
+  right: -12vw;
+  bottom: -14vh;
+  width: 40vw;
+  height: 40vw;
+  min-width: 340px;
+  min-height: 340px;
+  background: radial-gradient(circle, rgba(0, 3, 70, 0.08), transparent 70%);
+  filter: blur(12px);
+}
+
+.page-shell {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: clamp(2rem, 5vw, 3rem);
+}
+
+.page-frame {
+  position: absolute;
+  inset: 1.5rem;
+  border: 1px solid rgba(0, 3, 70, 0.06);
+  border-radius: 32px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0)),
+    linear-gradient(180deg, rgba(254, 145, 50, 0.02), rgba(0, 3, 70, 0.02));
+}
+
+.maintenance-panel {
+  position: relative;
+  width: min(100%, 760px);
+  padding: clamp(2.25rem, 4vw, 3rem) 1.5rem 2rem;
+  text-align: center;
+}
+
+.brand-logo {
+  width: min(100%, 350px);
+  height: auto;
+  display: block;
+  margin: 0 auto 0.25rem;
+  filter: drop-shadow(0 18px 30px rgba(0, 3, 70, 0.06));
+}
+
+.ornament {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin: 0.25rem 0 1rem;
+}
+
+.ornament-line {
+  width: 2rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(254, 145, 50, 0.35), transparent);
+}
+
+.ornament-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(254, 145, 50, 0.42);
+}
+
+.ornament-dot--active {
+  width: 8px;
+  height: 8px;
+  background: var(--theme-color1);
+}
+
+.headline {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--theme-color2);
+}
+
+.headline strong {
+  color: var(--theme-color1);
+  font-weight: 900;
+}
+
+.lead {
+  width: min(100%, 31rem);
+  margin: 1rem auto 0;
+  font-size: clamp(1rem, 1.6vw, 1.18rem);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--copy-strong);
+}
+
+.copy {
+  width: min(100%, 38rem);
+  margin: 0.85rem auto 0;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--copy-soft);
+}
+
+.contact-card {
+  width: min(100%, 320px);
+  margin: 2rem auto 0;
+  padding: 1.45rem 1.2rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.9)),
+    var(--surface);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+}
+
+.contact-label {
+  margin: 0 0 1.15rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  color: rgba(254, 145, 50, 0.9);
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  padding: 0.72rem 0.1rem;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(0, 3, 70, 0.72);
+  transition: transform 180ms ease, color 180ms ease;
+}
+
+.contact-row + .contact-row {
+  border-top: 1px solid rgba(0, 3, 70, 0.06);
+}
+
+.contact-row:hover,
+.contact-row:focus-visible {
+  color: var(--theme-color2);
+  transform: translateY(-1px);
+}
+
+.contact-icon {
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: rgba(254, 145, 50, 0.08);
+  border: 1px solid rgba(254, 145, 50, 0.22);
+  color: var(--theme-color1);
+}
+
+.contact-icon svg {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+}
+
+.contact-icon--whatsapp {
+  color: #25d366;
+  background: rgba(37, 211, 102, 0.09);
+  border-color: rgba(37, 211, 102, 0.22);
+}
+
+.footer-note {
+  position: absolute;
+  left: 50%;
+  bottom: 1.95rem;
+  margin: 0;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(0, 3, 70, 0.24);
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    padding: 1rem;
+  }
+
+  .page-frame {
+    inset: 0.75rem;
+    border-radius: 24px;
+  }
+
+  .maintenance-panel {
+    padding-inline: 0.5rem;
+  }
+
+  .brand-logo {
+    width: min(100%, 280px);
+    margin-bottom: 0.1rem;
+  }
+
+  .contact-card {
+    width: min(100%, 100%);
+  }
+
+  .footer-note {
+    position: static;
+    transform: none;
+    margin-top: 2rem;
+    padding-bottom: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .maintenance-panel {
+    animation: lift-in 700ms ease-out both;
+  }
+
+  .contact-card {
+    animation: fade-up 850ms 120ms ease-out both;
+  }
+}
+
+@keyframes lift-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
