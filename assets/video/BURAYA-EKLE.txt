@@ -1,0 +1,4 @@
+Bu klasöre kısa süreç videolarını ekleyin.
+Video dosyaları: 1.mp4, 2.mp4, 3.mp4 ...
+İsterseniz kapak görseli: 1.jpg, 2.jpg ... (opsiyonel)
+Video eklenmezse kart bayraklı kapak ile görünür, oynatınca dosya aranır.

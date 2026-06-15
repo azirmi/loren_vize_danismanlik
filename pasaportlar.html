@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pasaport Sonuçları | Loren Vize Deneyimler</title>
+    <meta
+      name="description"
+      content="Loren Vize Danışmanlık ile onaylanan ve vize etiketiyle teslim edilen pasaport sonuçları."
+    />
+    <link rel="icon" href="logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Roboto:wght@500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <div id="header-mount"></div>
+
+    <main>
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <span class="eyebrow" data-reveal>Onaylanan Başvurular</span>
+            <h2 class="section-title" data-reveal data-delay="1">
+              Vize etiketiyle <em>teslim edilen</em> pasaportlar
+            </h2>
+            <p class="section-sub" data-reveal data-delay="2">
+              Onaylanan başvuruların pasaport teslim videoları. Oynatmak için bir
+              karta dokunun; her videonun altında başvuru sahibinin yorumu yer
+              alır. Kişisel bilgiler gizlilik gereği maskelenmiştir.
+            </p>
+          </div>
+
+          <div class="filter-pills" id="passportPills" style="justify-content:center;margin-bottom:2rem"></div>
+
+          <div class="video-grid" id="passportGrid"></div>
+
+          <p class="privacy-note">
+            🔒 Tüm videolarda ad, soyad, pasaport numarası ve kişisel veriler
+            gizlilik gereği bulanıklaştırılmış/maskelenmiştir.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <div id="footer-mount"></div>
+
+    <script src="assets/experience.js"></script>
+    <script src="assets/site.js"></script>
+    <script>
+      document.addEventListener("loren:ready", function () {
+        var TOTAL = 50; // assets/pasaport/1.mp4 ... 50.mp4
+        var SEEK = 2; // ilk saniyelerden kapak karesi
+
+        var items = [
+          // Dosya: 1.mp4 (Yalın Bey - 3 Yıllık Hırvatistan)
+          {
+            name: "Yalın B.",
+            initials: "YB",
+            city: "İstanbul",
+            rating: 5,
+            flag: "🇭🇷",
+            country: "Hırvatistan",
+            text: "3 yıllık Hırvatistan vizem pasaportuma işlendi. Başvuru dosyamın hazırlanmasından sonuçlanmasına kadar olan o stresli süreci profesyonel destekleri ve doğru yönlendirmeleri sayesinde sıfır stres ile atlattım. Onay sürecindeki destekleri için tüm ekibe çok teşekkür ederim.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#FF0000", "#003399"]
+          },
+          // Dosya: 1_2.mp4 (Yalın Bey - Alternatif Tasarım)
+          {
+            name: "Yalın B.",
+            initials: "YB",
+            city: "İstanbul",
+            rating: 5,
+            flag: "🇭🇷",
+            country: "Hırvatistan",
+            text: "Hırvatistan vizemi sorunsuz bir şekilde teslim aldım. Evrak hazırlığı aşamasındaki titizlikleri ve her soruma anında yanıt vermeleri sayesinde çok rahat bir başvuru dönemi geçirdim. Süreç gerçekten harika yönetildi, herkese tavsiye ederim.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#FF0000", "#003399"]
+          },
+          // Dosya: 3.mp4 (Nahit Bey - Macaristan)
+          {
+            name: "Nahit B.",
+            initials: "NB",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇭🇺",
+            country: "Macaristan",
+            text: "Macaristan vizemi bugün pasaportumda gördüm, gerçekten harika bir his. Başvurudan sonuca kadar her şey tıkır tıkır işledi. Tüm süreç boyunca aklımdaki soru işaretlerini gideren ve profesyonel yaklaşımıyla güven veren ekibe minnettarım.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#CE2939", "#477050"]
+          },
+          // Dosya: 4.mp4 (Aysun Hanım - Fransa)
+          {
+            name: "Aysun H.",
+            initials: "AH",
+            city: "İzmir",
+            rating: 5,
+            flag: "🇫🇷",
+            country: "Fransa",
+            text: "Fransa turistik vizem beklediğimden çok daha hızlı onaylandı ve pasaportumu teslim aldım. Evrak toplama aşamasından randevu gününe kadar her adımda beni detaylıca bilgilendirdiler. Kaliteli ve şeffaf hizmetiniz için ne kadar teşekkür etsem az.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#002395", "#ED2939"]
+          },
+          // Sibel Hanım - Bulgaristan
+          {
+            name: "Sibel H.",
+            initials: "SH",
+            city: "Bursa",
+            rating: 5,
+            flag: "🇧🇬",
+            country: "Bulgaristan",
+            text: "Bulgaristan vizem onaylandı ve elime ulaştı. Vize sürecinin ne kadar stresli olabileceğini biliyordum ama ekibin güler yüzü, ilgisi ve konuya hakimiyeti sayesinde hiçbir endişe yaşamadım. İlgili ve profesyonel ekibinize sonsuz teşekkürler.",
+            visa: "Turistik Vize",
+            verified: true,
+            color: ["#00966E", "#D62612"]
+          },
+          // Arya Hanım - Bulgaristan
+          {
+            name: "Arya H.",
+            initials: "AH",
+            city: "Antalya",
+            rating: 5,
+            flag: "🇧🇬",
+            country: "Bulgaristan",
+            text: "Bulgaristan vizem sorunsuz bir şekilde elime ulaştı, gerçekten çok mutluyum. Dosya hazırlık sürecindeki profesyonel yönlendirmeleriniz sayesinde hiçbir pürüz yaşamadık. Kesinlikle çok güvenilir ve işini iyi yapan bir danışmanlık hizmeti sunuyorsunuz.",
+            visa: "Turistik Vize",
+            verified: true,
+            color: ["#00966E", "#D62612"]
+          },
+          // Erdinç Bey - Bulgaristan 
+          {
+            name: "Erdinç B.",
+            initials: "EB",
+            city: "Eskişehir",
+            rating: 5,
+            flag: "🇧🇬",
+            country: "Bulgaristan", 
+            text: "Vizemi sorunsuz bir şekilde pasaportumda görmek beni inanılmaz sevindirdi. Karmaşık evrak süreçlerini benim için çok kolaylaştırdınız ve vizemi tam zamanında almama yardımcı oldunuz. Tüm süreçteki yardımlarınız ve emeğiniz için teşekkürler.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#00966E", "#D62612"]
+          },
+          // Berk Bey - Bulgaristan
+          {
+            name: "Berk B.",
+            initials: "BB",
+            city: "Adana",
+            rating: 5,
+            flag: "🇧🇬",
+            country: "Bulgaristan",
+            text: "Bulgaristan vizem sorunsuz bir şekilde onaylandı. Başvuru dosyamın titizlikle hazırlanmasından randevuma kadar her detayla yakından ilgilendiler. Son derece hızlı, şeffaf ve güvenilir bir hizmet aldım. Tüm ekibin eline, emeğine sağlık.",
+            visa: "Turistik Vize",
+            verified: true,
+            color: ["#00966E", "#D62612"]
+          },
+          // Hamza Bey - İngiltere
+          {
+            name: "Hamza B.",
+            initials: "HB",
+            city: "Gaziantep",
+            rating: 5,
+            flag: "🇬🇧",
+            country: "İngiltere",
+            text: "İngiltere C-Visit vizem nihayet onaylandı. İngiltere vizesi gibi meşakkatli ve zorlu bir süreci sizin tecrübeniz ve kusursuz desteğiniz sayesinde harika bir şekilde başardık. Gösterdiğiniz sabır ve profesyonellik için çok teşekkür ederim.",
+            visa: "Ziyaretçi Vizesi",
+            verified: true,
+            color: ["#012169", "#C8102E"]
+          },
+          // Ahmet Bey - Fransa (1. Video)
+          {
+            name: "Ahmet B.",
+            initials: "AB",
+            city: "İstanbul",
+            rating: 5,
+            flag: "🇫🇷",
+            country: "Fransa",
+            text: "Fransa Schengen vizem sorunsuz bir şekilde elime ulaştı. Başvuru aşamasında evrakların titizlikle incelenmesi ve sorularıma bıkmadan cevap verilmesi sürecin çok rahat geçmesini sağladı. Tüm süreç boyunca gösterdiğiniz ilgi ve alaka için çok teşekkürler.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#002395", "#ED2939"]
+          },
+          // Ahmet Bey - Fransa (2. Video)
+          {
+            name: "Ahmet B.",
+            initials: "AB",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇫🇷",
+            country: "Fransa",
+            text: "Fransa turistik vizemi beklediğimden çok daha kısa sürede, hiçbir pürüz yaşamadan teslim aldım. Evrak hazırlığından pasaport teslimine kadar süreci harika yönettiler. Gözünüz kapalı güvenebileceğiniz, son derece profesyonel bir ekip.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#002395", "#ED2939"]
+          },
+          // Ahmet Bey - Fransa (3. Video)
+          {
+            name: "Ahmet B.",
+            initials: "AB",
+            city: "İzmir",
+            rating: 5,
+            flag: "🇫🇷",
+            country: "Fransa",
+            text: "Vizem sorunsuz onaylandı ve pasaportumu teslim aldım. Daha önceki deneyimlerime kıyasla bu süreçte ne kadar profesyonel ve şeffaf çalıştığınızı bizzat gördüm. Verdiğiniz emekler ve kaliteli hizmet anlayışınız için sonsuz teşekkür ederim.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#002395", "#ED2939"]
+          },
+          // Arin Bey - Macaristan
+          {
+            name: "Arin B.",
+            initials: "AB",
+            city: "İstanbul",
+            rating: 5,
+            flag: "🇭🇺",
+            country: "Macaristan",
+            text: "Macaristan Schengen vizem beklediğimden çok daha hızlı bir şekilde onaylandı ve pasaportum elime ulaştı. Başından sonuna kadar tüm detaylarla titizlikle ilgilenen Loren Vize ekibine çok teşekkür ederim, harika bir deneyimdi.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#CE2939", "#477050"]
+          },
+          // Abdullah Bey - Bulgaristan
+          {
+            name: "Abdullah B.",
+            initials: "AB",
+            city: "Bursa",
+            rating: 5,
+            flag: "🇧🇬",
+            country: "Bulgaristan",
+            text: "Bulgaristan vizesi için yaptığımız başvuru sorunsuz bir şekilde sonuçlandı. Gerek evrak hazırlık sürecinde gerekse sonrasındaki bilgilendirmelerde çok profesyonel yaklaştılar. Tüm ekibin emeğine sağlık.",
+            visa: "Turistik Vize",
+            verified: true,
+            color: ["#00966E", "#D62612"]
+          },
+          // Esra Hanım - Macaristan
+          {
+            name: "Esra H.",
+            initials: "EH",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇭🇺",
+            country: "Macaristan",
+            text: "Macaristan vizemi pasaportumda görmek beni çok mutlu etti. Başvuru aşamasındaki stresimi güler yüzlü yaklaşımları ve tecrübeleriyle tamamen yok ettiler. Sorunsuz ve çok güvenilir bir hizmet aldım.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#CE2939", "#477050"]
+          },
+          // Birol Bey - Macaristan
+          {
+            name: "Birol B.",
+            initials: "BB",
+            city: "İzmir",
+            rating: 5,
+            flag: "🇭🇺",
+            country: "Macaristan",
+            text: "Macaristan Schengen vizem onaylandı ve pasaportumu teslim aldım. Süreci baştan sona büyük bir şeffaflıkla yönettiler. Verdiğiniz emekler ve kaliteli hizmet anlayışınız için sonsuz teşekkürler.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#CE2939", "#477050"]
+          },
+          // Hizni Bey - Macaristan
+          {
+            name: "Hizni B.",
+            initials: "HB",
+            city: "İstanbul",
+            rating: 5,
+            flag: "🇭🇺",
+            country: "Macaristan",
+            text: "Macaristan Schengen vizesi başvurum için Loren Vize ile çalıştım ve sürecin her aşamasında gösterdikleri profesyonellikten çok memnun kaldım. Pasaportumu vizeli bir şekilde teslim almak harika bir his, tüm ekibe teşekkürler.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#CE2939", "#477050"]
+          },
+          // Gülsah Hanım - Macaristan
+          {
+            name: "Gülsah H.",
+            initials: "GH",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇭🇺",
+            country: "Macaristan",
+            text: "Macaristan vize sürecimde başından sonuna kadar yanımda olan, her soruma sabırla cevap veren ve vizemi sorunsuz almama yardımcı olan ekibe sonsuz teşekkürler. Kesinlikle çevreme de tavsiye edeceğim.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#CE2939", "#477050"]
+          },
+          // Ezgi Hanım - Fransa
+          {
+            name: "Ezgi H.",
+            initials: "EH",
+            city: "İzmir",
+            rating: 5,
+            flag: "🇫🇷",
+            country: "Fransa",
+            text: "Fransa turistik vizemi beklediğimden çok daha hızlı bir şekilde, hiçbir pürüz yaşamadan teslim aldım. Evrak hazırlığından pasaport teslimine kadar harika ve güvenilir bir hizmet sundular.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#002395", "#ED2939"]
+          },
+          // Yalın Bey - Hırvatistan (3 Yıllık)
+          {
+            name: "Yalın B.",
+            initials: "YB",
+            city: "Antalya",
+            rating: 5,
+            flag: "🇭🇷",
+            country: "Hırvatistan",
+            text: "Hırvatistan için yaptığımız başvuru sonucunda 3 yıllık vizemi pasaportumda görmek beni inanılmaz sevindirdi. Bu uzun soluklu vizeyi almamda büyük payı olan danışmanlara titiz çalışmaları için teşekkür ediyorum.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#FF0000", "#003399"]
+          },
+          // Çağlar Bey - Danimarka
+          {
+            name: "Çağlar B.",
+            initials: "ÇB",
+            city: "İstanbul",
+            rating: 5,
+            flag: "🇩🇰",
+            country: "Danimarka",
+            text: "Danimarka için yaptığım 1 yıllık Schengen vizesi başvurum başarıyla sonuçlandı. Süreç boyunca gösterdikleri şeffaflık, evrak hazırlığındaki titizlikleri ve her soruma anında yanıt vermeleri sayesinde çok rahat bir başvuru dönemi geçirdim.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#C60C30", "#8A0821"]
+          },
+          // İzel Hanım - Fransa
+          {
+            name: "İzel H.",
+            initials: "İH",
+            city: "İzmir",
+            rating: 5,
+            flag: "🇫🇷",
+            country: "Fransa",
+            text: "Fransa'dan 3 yıllık uzun süreli Schengen vizemi teslim aldım ve sonuçtan inanılmaz memnunum. Profesyonel yönlendirmeleri ve tecrübeleri olmasaydı bu kadar uzun süreli bir onay almam çok zor olabilirdi, tüm emekleri için teşekkürler.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#002395", "#ED2939"]
+          },
+          // Necati Bey - Macaristan
+          {
+            name: "Necati B.",
+            initials: "NB",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇭🇺",
+            country: "Macaristan",
+            text: "Macaristan konsolosluğundan 1 yıllık vizemi sorunsuz bir şekilde aldım. Başvuru dosyamın hazırlanmasından pasaportumun elime ulaşmasına kadar geçen tüm süreçte bana verdikleri güven ve sağladıkları kusursuz destek için minnettarım.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#CE2939", "#477050"]
+          },
+          // Ece Hanım - Macaristan
+          {
+            name: "Ece H.",
+            initials: "EH",
+            city: "Bursa",
+            rating: 5,
+            flag: "🇭🇺",
+            country: "Macaristan",
+            text: "Macaristan 1 yıllık vizem onaylandı. Vize süreçlerinin ne kadar stresli olabileceğini biliyordum ama ekibin güler yüzü ve konuya hakimiyeti sayesinde hiçbir endişe yaşamadım. Gözünüz kapalı güvenebileceğiniz bir danışmanlık hizmeti.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#CE2939", "#477050"]
+          },
+          // Sedanur Hanım - Hollanda
+          {
+            name: "Sedanur H.",
+            initials: "SH",
+            city: "İstanbul",
+            rating: 5,
+            flag: "🇳🇱",
+            country: "Hollanda",
+            text: "Hollanda Schengen vizesi sürecimde başından sonuna kadar yanımda olan, her soruma sabırla ve profesyonelce cevap veren Loren Vize ekibine çok teşekkür ederim. Evraklarımın eksiksiz hazırlanması sayesinde vizemi sorunsuz bir şekilde teslim aldım.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#AE1C28", "#21468B"]
+          },
+          // Kıvanç Bey - Macaristan
+          {
+            name: "Kıvanç B.",
+            initials: "KB",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇭🇺",
+            country: "Macaristan",
+            text: "Macaristan vizesi için yaptığım başvuru beklediğimden de hızlı ve olumlu sonuçlandı. Başvuru dosyamın hazırlanmasından pasaportumun teslimine kadar geçen tüm süreçte bana verdikleri güven ve sağladıkları kusursuz destek için minnettarım.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#CE2939", "#477050"]
+          },
+          // Sinem Hanım - Macaristan
+          {
+            name: "Sinem H.",
+            initials: "SH",
+            city: "İzmir",
+            rating: 5,
+            flag: "🇭🇺",
+            country: "Macaristan",
+            text: "Macaristan Schengen vizemi pasaportumda görmek beni çok mutlu etti. Vize süreçlerinin ne kadar stresli olabileceğini biliyordum ama ekibin güler yüzü, ilgisi ve konuya hakimiyeti sayesinde hiçbir endişe yaşamadım. Harika bir danışmanlık hizmeti.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#CE2939", "#477050"]
+          },
+          // Musa Bey - Belçika
+          {
+            name: "Musa B.",
+            initials: "MB",
+            city: "Bursa",
+            rating: 5,
+            flag: "🇧🇪",
+            country: "Belçika",
+            text: "Belçika vizemi sorunsuz bir şekilde elime ulaştıran profesyonel ekibinize sonsuz teşekkürler. Sürecin her aşamasında şeffaf ve güvenilir bir iletişim kurdular, bu da başvuru aşamasındaki tüm stresimi aldı. Vize almak isteyen herkese kesinlikle tavsiye ediyorum.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#FDDA24", "#ED2939"]
+          },
+          // Okan Bey - Hollanda
+          {
+            name: "Okan B.",
+            initials: "OB",
+            city: "İzmir",
+            rating: 5,
+            flag: "🇳🇱",
+            country: "Hollanda",
+            text: "Hollanda Schengen vizemi sorunsuz bir şekilde teslim aldım. Başvuru aşamasında evrakların titizlikle incelenmesi ve her soruma bıkmadan cevap verilmesi sürecin çok rahat geçmesini sağladı. Emeği geçen tüm ekibe gönülden teşekkürler.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#AE1C28", "#21468B"]
+          },
+          // Murat Bey - Almanya
+          {
+            name: "Murat B.",
+            initials: "MB",
+            city: "İstanbul",
+            rating: 5,
+            flag: "🇩🇪",
+            country: "Almanya",
+            text: "Almanya vizem beklediğimden çok daha hızlı onaylandı ve pasaportum elime ulaştı. Dosya hazırlık sürecindeki profesyonel yönlendirmeleriniz sayesinde hiçbir pürüz yaşamadık. Kesinlikle çok güvenilir bir danışmanlık hizmeti sunuyorsunuz.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#FFCE00", "#DD0000"]
+          },
+          // Rana Hanım - İtalya
+          {
+            name: "Rana H.",
+            initials: "RH",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇮🇹",
+            country: "İtalya",
+            text: "İtalya turistik Schengen vizemi başarıyla aldım. Daha önceki deneyimlerime kıyasla bu süreçte ne kadar profesyonel ve şeffaf çalıştığınızı bizzat gördüm. İlgili ve güler yüzlü ekibinize destekleri için çok teşekkür ediyorum.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#009246", "#CE2B37"]
+          },
+          // Şebnem Hanım - ABD
+          {
+            name: "Şebnem H.",
+            initials: "ŞH",
+            city: "Bursa",
+            rating: 5,
+            flag: "🇺🇸",
+            country: "ABD",
+            text: "ABD B1/B2 vizem onaylandı! Amerika vizesi gibi meşakkatli ve stresli bir süreci sizin sayenizde harika bir şekilde atlattım. Gerek mülakat hazırlığı gerekse formların eksiksiz doldurulmasındaki kusursuz desteğiniz için çok teşekkür ederim.",
+            visa: "Ziyaretçi Vizesi",
+            verified: true,
+            color: ["#B31942", "#0A3161"]
+          },
+          // Hüsna Hanım - Almanya
+          {
+            name: "Hüsna H.",
+            initials: "HH",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇩🇪",
+            country: "Almanya",
+            text: "Almanya Schengen vize başvurum çok kısa sürede olumlu sonuçlandı. Başvuru dosyamın hazırlanmasından randevu sürecine kadar her detayıyla yakından ilgilenen ve beni sürekli bilgilendiren profesyonel ekibe çok teşekkür ederim.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#FFCE00", "#DD0000"]
+          },
+          // Çağdaş Bey - Almanya
+          {
+            name: "Çağdaş B.",
+            initials: "ÇB",
+            city: "İstanbul",
+            rating: 5,
+            flag: "🇩🇪",
+            country: "Almanya",
+            text: "Almanya vizemi bugün pasaportumda gördüm, gerçekten harika bir his. Özellikle karmaşık evrak aşamasındaki doğru yönlendirmeleriniz sürecin pürüzsüz ilerlemesini sağladı. Emekleriniz ve kaliteli hizmetiniz için minnettarım.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#FFCE00", "#DD0000"]
+          },
+          // Mert Bey - ABD
+          {
+            name: "Mert B.",
+            initials: "MB",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇺🇸",
+            country: "ABD",
+            text: "Amerika Birleşik Devletleri B1/B2 vizem sorunsuz onaylandı. Mülakat öncesi yaptığımız hazırlıklar ve dosyamın titizlikle incelenmesi sayesinde hiç stres yaşamadan vizemi aldım. Bu zorlu süreçteki profesyonel desteğiniz için çok teşekkürler.",
+            visa: "Ziyaretçi Vizesi",
+            verified: true,
+            color: ["#B31942", "#0A3161"]
+          },
+          // Cansu Hanım - Hollanda
+          {
+            name: "Cansu H.",
+            initials: "CH",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇳🇱",
+            country: "Hollanda",
+            text: "Hollanda Schengen vizesi başvurum başarıyla sonuçlandı ve vizemi teslim aldım. Süreç boyunca her soruma bıkmadan cevap veren, güler yüzlü ve işini gerçekten çok iyi yapan bir ekiple çalışmak çok rahatlatıcıydı. Kesinlikle tavsiye ederim.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#AE1C28", "#21468B"]
+          },
+          // Savaş Bey - Almanya
+          {
+            name: "Savaş B.",
+            initials: "SB",
+            city: "İstanbul",
+            rating: 5,
+            flag: "🇩🇪",
+            country: "Almanya",
+            text: "Almanya Schengen vizem nihayet pasaportuma işlendi. Dosya hazırlık aşamasından randevu gününe kadar gösterdiğiniz sabır, titizlik ve profesyonellik için tüm ekibe sonsuz teşekkürler. Kesinlikle çok güvenilir bir firmasınız.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#FFCE00", "#DD0000"]
+          },
+          // Gönen Bey - Danimarka
+          {
+            name: "Gönen B.",
+            initials: "GB",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇩🇰",
+            country: "Danimarka",
+            text: "Danimarka vizemi sorunsuz bir şekilde teslim aldığım için çok mutluyum. Tüm süreç boyunca aklımdaki soru işaretlerini gideren ve profesyonel yaklaşımıyla güven veren Loren Vize ekibine çok teşekkür ederim. Herkese tavsiye ediyorum.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#C60C30", "#8A0821"]
+          },
+          // Özge Hanım - Hollanda
+          {
+            name: "Özge H.",
+            initials: "ÖH",
+            city: "İstanbul",
+            rating: 5,
+            flag: "🇳🇱",
+            country: "Hollanda",
+            text: "Hollanda turistik vizem beklediğimden çok daha hızlı onaylandı. Özellikle evrak aşamasındaki doğru ve şeffaf yönlendirmeleriniz sürecin pürüzsüz ilerlemesini sağladı. Emekleriniz, ilginiz ve kaliteli hizmetiniz için minnettarım.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#AE1C28", "#21468B"]
+          },
+          // Berat Bey - İsveç
+          {
+            name: "Berat B.",
+            initials: "BB",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇸🇪",
+            country: "İsveç",
+            text: "İsveç vizesi başvurum için sizinle çalıştım ve sürecin her aşamasında gösterdiğiniz özveriden son derece memnun kaldım. Pasaportumu o güzel İsveç damgasıyla vizeli bir şekilde teslim almak harika bir his, tüm ekibinize teşekkürler.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#005293", "#FECB00"]
+          },
+          // Merve Hanım - Hollanda
+          {
+            name: "Merve H.",
+            initials: "MH",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇳🇱",
+            country: "Hollanda",
+            text: "Hollanda turistik vize başvurum çok hızlı ve olumlu sonuçlandı. Başvuru dosyamın titizlikle hazırlanmasından randevuma kadar her detayla yakından ilgilenen ve süreci şeffaf yöneten ekibe ne kadar teşekkür etsem azdır.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#AE1C28", "#21468B"]
+          },
+          // Baylas Bey - Hollanda
+          {
+            name: "Baylas B.",
+            initials: "BB",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇳🇱",
+            country: "Hollanda",
+            text: "Hollanda Schengen vizem pasaportuma işlendi. Karmaşık ve yorucu olabileceğini düşündüğüm bu süreci, profesyonel destekleri ve doğru yönlendirmeleri sayesinde sıfır stres ile atlattım. Kaliteli hizmetiniz için teşekkürler.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#AE1C28", "#21468B"]
+          },
+          // Perihan Hanım - Hollanda
+          {
+            name: "Perihan H.",
+            initials: "PH",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇳🇱",
+            country: "Hollanda",
+            text: "Hollanda vizesi için başvurumu sizinle yaptığım için çok memnunum. Tüm evrak prosedürlerini büyük bir özenle tamamlayıp vizemi sorunsuz bir şekilde almama vesile oldunuz. Çevremdeki herkese gönül rahatlığıyla önereceğim.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#AE1C28", "#21468B"]
+          },
+          // Tarık Bey - Hollanda
+          {
+            name: "Tarık B.",
+            initials: "TB",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇳🇱",
+            country: "Hollanda",
+            text: "Hollanda vize başvuru sürecimdeki sonsuz sabrınız, güler yüzünüz ve bitmek bilmeyen sorularıma verdiğiniz tatmin edici cevaplar için çok teşekkür ederim. Vizemi zamanında ve pürüzsüz bir şekilde teslim aldım.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#AE1C28", "#21468B"]
+          },
+          // Esra Hanım - Hollanda (İkinci Esra Hanım)
+          {
+            name: "Esra H.",
+            initials: "EH",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇳🇱",
+            country: "Hollanda",
+            text: "Hollanda vizesi başvurum için Loren Vize ile yola çıktığım için çok şanslıyım. Evrak toplama aşamasından tutun da randevu gününe kadar her adımda beni detaylıca bilgilendirdiler ve vizemi sorunsuz bir şekilde teslim aldım. Emekleriniz için çok teşekkür ederim.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#AE1C28", "#21468B"]
+          },
+          // Kadir Bey - Hollanda
+          {
+            name: "Kadir B.",
+            initials: "KB",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇳🇱",
+            country: "Hollanda",
+            text: "Hollanda Schengen vizemi bugün teslim aldım. Sürecin bu kadar hızlı ve pürüzsüz ilerleyeceğini hiç tahmin etmemiştim. Doğru yönlendirmeleriniz, titiz çalışmanız ve profesyonel yaklaşımınız sayesinde harika bir danışmanlık hizmeti aldım. Tüm ekibin eline sağlık.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#AE1C28", "#21468B"]
+          },
+          // Yusuf Bey - Hollanda
+          {
+            name: "Yusuf B.",
+            initials: "YB",
+            city: "Ankara",
+            rating: 5,
+            flag: "🇳🇱",
+            country: "Hollanda",
+            text: "Hollanda turistik vize sürecimde göstermiş olduğunuz sabır, ilgi ve profesyonellik için ne kadar teşekkür etsem az. Karmaşık evrak süreçlerini benim için çok kolaylaştırdınız ve vizemi tam zamanında almama yardımcı oldunuz. Kesinlikle herkese tavsiye ediyorum.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#AE1C28", "#21468B"]
+          },
+          // Metin Bey - Bulgaristan
+          {
+            name: "Metin B.",
+            initials: "MB",
+            city: "İstanbul",
+            rating: 5,
+            flag: "🇧🇬",
+            country: "Bulgaristan",
+            text: "Bulgaristan vizesi için yaptığım başvuru sorunsuz bir şekilde onaylandı ve pasaportumu teslim aldım. Dosyamın hazırlanması aşamasında gösterdikleri olağanüstü titizlik ve güler yüzlü hizmet anlayışları için Loren Vize ekibine sonsuz teşekkürler.",
+            visa: "Turistik Vize",
+            verified: true,
+            color: ["#00966E", "#D62612"]
+          },
+          // Fatih Bey - Fransa
+          {
+            name: "Fatih B.",
+            initials: "FB",
+            city: "İstanbul",
+            rating: 5,
+            flag: "🇫🇷",
+            country: "Fransa",
+            text: "Fransa Schengen vizesi başvurum için sizinle çalışmak verdiğim en doğru kararlardan biriydi. Evrak sürecindeki titizliğiniz ve baştan sona sergilediğiniz profesyonel yaklaşımınız sayesinde vizemi sorunsuz bir şekilde elime aldım. Emekleriniz için çok teşekkür ederim.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#002395", "#ED2939"]
+          },
+          // Mustafa Bey - Yunanistan
+          {
+            name: "Mustafa B.",
+            initials: "MB",
+            city: "İstanbul",
+            rating: 5,
+            flag: "🇬🇷",
+            country: "Yunanistan",
+            text: "Yunanistan Schengen vizem pasaportuma işlendi ve bugün teslim aldım. Başvuru dosyamın hazırlanmasından sonuçlanmasına kadar olan o stresli süreci güler yüzünüz, kesintisiz iletişiminiz ve deneyiminizle çok rahat atlatmamı sağladınız. Tüm ekibe minnettarım.",
+            visa: "Schengen Vizesi",
+            verified: true,
+            color: ["#0D5EAF", "#89CFF0"]
+          }
+        ];
+
+        // Videoları sırayla nesnelere eşleyen döngü
+        items.forEach(function (it, idx) {
+          it.video = "assets/pasaport/" + (idx + 1) + ".mp4";
+        });
+
+        var grid = document.getElementById("passportGrid");
+        var active = "all";
+        var io = null;
+
+        function esc(s) {
+          return String(s).replace(/[&<>"]/g, function (m) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m];
+          });
+        }
+
+        function commentHtml(it) {
+          return (
+            '<div class="media-comment">' +
+            '<div class="review-head">' +
+            '<div class="review-ava" style="background:linear-gradient(135deg,' +
+            it.color[0] + "," + it.color[1] + ')">' + it.initials + "</div>" +
+            '<div class="review-who"><b>' + esc(it.name) + "</b><small>" + it.city + "</small></div>" +
+            "</div>" +
+            '<div class="review-meta">' +
+            window.LorenUtil.stars(it.rating) +
+            '<span class="review-tag">' + it.flag + " " + it.country + "</span></div>" +
+            '<p class="review-text">' + esc(it.text) + "</p>" +
+            '<div class="review-foot"><span>' + it.visa + " · Onaylandı</span>" +
+            (it.verified
+              ? '<span class="verified"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Doğrulandı</span>'
+              : "<span>" + it.date + "</span>") +
+            "</div>" +
+            "</div>"
+          );
+        }
+
+        function cardHtml(it) {
+          return (
+            '<article class="video-card result-card" data-country="' + it.country + '">' +
+            '<div class="video-frame">' +
+            '<video data-src="' + it.video + "#t=" + SEEK +
+            '" muted playsinline preload="metadata" controlslist="nodownload nofullscreen noremoteplayback" disablepictureinpicture></video>' +
+            '<button class="play-btn" aria-label="Oynat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>' +
+            "</div>" +
+            commentHtml(it) +
+            "</article>"
+          );
+        }
+
+        function prep(video) {
+          if (video.dataset.loaded) return;
+          video.dataset.loaded = "1";
+          video.src = video.getAttribute("data-src");
+          video.addEventListener(
+            "loadedmetadata",
+            function () {
+              var frame = video.parentElement;
+              if (video.videoWidth && video.videoHeight) {
+                frame.style.aspectRatio = video.videoWidth + " / " + video.videoHeight;
+              }
+              var t = Math.min(SEEK, (video.duration || SEEK) * 0.5);
+              try {
+                video.currentTime = t;
+              } catch (e) {}
+            },
+            { once: true }
+          );
+        }
+
+        function observeVideos() {
+          var videos = grid.querySelectorAll("video");
+          if ("IntersectionObserver" in window) {
+            if (io) io.disconnect();
+            io = new IntersectionObserver(
+              function (entries) {
+                entries.forEach(function (entry) {
+                  if (entry.isIntersecting) {
+                    prep(entry.target);
+                    io.unobserve(entry.target);
+                  }
+                });
+              },
+              { rootMargin: "300px 0px" }
+            );
+            videos.forEach(function (v) {
+              io.observe(v);
+            });
+          } else {
+            videos.forEach(prep);
+          }
+        }
+
+        function render() {
+          var list =
+            active === "all"
+              ? items
+              : items.filter(function (x) {
+                  return x.country === active;
+                });
+          grid.innerHTML = list.map(cardHtml).join("");
+          observeVideos();
+        }
+
+        // Ülke filtresi pill'leri
+        var used = [];
+        items.forEach(function (x) {
+          if (used.indexOf(x.country) === -1) used.push(x.country);
+        });
+        var ph = '<button class="pill active" data-c="all">Tümü</button>';
+        used.forEach(function (c) {
+          ph += '<button class="pill" data-c="' + c + '">' + c + "</button>";
+        });
+        var pills = document.getElementById("passportPills");
+        pills.innerHTML = ph;
+        pills.addEventListener("click", function (e) {
+          var b = e.target.closest(".pill");
+          if (!b) return;
+          this.querySelectorAll(".pill").forEach(function (p) {
+            p.classList.remove("active");
+          });
+          b.classList.add("active");
+          active = b.getAttribute("data-c");
+          render();
+        });
+
+        // Videoyu yerinde oynat / durdur (yorum alanına tıklayınca tetiklenmez)
+        grid.addEventListener("click", function (e) {
+          var frame = e.target.closest(".video-frame");
+          if (!frame) return;
+          var card = frame.closest(".video-card");
+          var video = frame.querySelector("video");
+          if (!video) return;
+          prep(video);
+
+          if (video.paused) {
+            grid.querySelectorAll("video").forEach(function (other) {
+              if (other !== video && !other.paused) {
+                other.pause();
+                other.closest(".video-card").classList.remove("playing");
+              }
+            });
+            video.muted = false;
+            var p = video.play();
+            if (p && p.catch) p.catch(function () {});
+            card.classList.add("playing");
+          } else {
+            video.pause();
+            card.classList.remove("playing");
+          }
+        });
+
+        grid.addEventListener(
+          "ended",
+          function (e) {
+            var card = e.target.closest(".video-card");
+            if (card) card.classList.remove("playing");
+          },
+          true
+        );
+
+        render();
+      });
+    </script>
+  </body>
+</html>

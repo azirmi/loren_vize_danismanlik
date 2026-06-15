@@ -1,0 +1,17 @@
+Bu klasöre 3D Parallax Hero görsellerini ekleyin (deneyimler.html en üstteki bölüm).
+
+ARKA PLAN (şehir/manzara fotoğrafları — tam ekranı kaplar):
+  bg1.jpg, bg2.jpg, bg3.jpg
+  - Yatay (landscape), önerilen en az 1920x1080.
+  - Her 4.5 saniyede bir otomatik geçiş yapar (çapraz fade).
+  - İstediğiniz kadar ekleyebilirsiniz; bg4.jpg eklerseniz HTML'de yeni bir
+    <img class="bg-slide" ...> satırı eklemeniz yeterli.
+
+ÖN PLAN (şeffaf arka planlı PNG — örn. ayakta duran insanlar):
+  people.png
+  - Mutlaka arka planı saydam (transparent) PNG olmalı.
+  - Alta ortalı durur ve yazının alt kısmını örterek derinlik hissi verir.
+
+Not: Görsel eklenmezse bölüm bozulmaz; arka plan koyu degrade, ön plan ise
+gizli kalır (onerror ile otomatik gizlenir). Görselleri ekleyince kendiliğinden
+görünür hâle gelir.

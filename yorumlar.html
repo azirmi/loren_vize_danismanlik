@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yorumlar | Loren Vize Deneyimler</title>
+    <meta
+      name="description"
+      content="Loren Vize Danışmanlık ile başvuru yapan kişilerin yıldız puanlı deneyim yorumları."
+    />
+    <link rel="icon" href="logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Roboto:wght@500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <div id="header-mount"></div>
+
+    <main>
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <span class="eyebrow" data-reveal>Deneyim Yorumları</span>
+            <h2 class="section-title" data-reveal data-delay="1">
+              Başvuru sahiplerinin <em>gerçek</em> deneyimleri
+            </h2>
+            <p class="section-sub" data-reveal data-delay="2">
+              Tamamlanan başvurulara ait yıldız puanlı yorumlar. Ülkeye, vize
+              türüne veya puana göre filtreleyebilirsiniz.
+            </p>
+          </div>
+
+          <!-- Puan özeti -->
+          <div class="rating-overview" data-reveal>
+            <div class="rating-score">
+              <div class="big" id="avgScore">4.9</div>
+              <div class="stars" id="avgStars">★★★★★</div>
+              <small><span id="totalCount">496</span> değerlendirme</small>
+            </div>
+            <div class="rating-bars" id="ratingBars"></div>
+          </div>
+
+          <!-- Araç çubuğu -->
+          <div class="review-toolbar" data-reveal>
+            <div class="filter-pills" id="starPills">
+              <button class="pill active" data-star="all">Tümü</button>
+              <button class="pill" data-star="5">5 ★</button>
+              <button class="pill" data-star="4">4 ★</button>
+            </div>
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <input type="search" id="reviewSearch" placeholder="Ülke, vize türü veya isim ara..." />
+            </div>
+          </div>
+
+          <!-- Ülke filtresi -->
+          <div class="filter-pills" id="countryPills" style="margin-bottom:1.8rem"></div>
+
+          <div class="reviews-grid" id="reviewsGrid"></div>
+          <p class="muted-count" id="resultCount"></p>
+
+          <div class="load-more-wrap">
+            <button class="btn btn-ghost" id="loadMore">Daha Fazla Göster</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="footer-mount"></div>
+
+    <script src="assets/reviews.js"></script>
+    <script src="assets/site.js"></script>
+    <script>
+      document.addEventListener("loren:ready", function () {
+        var ALL = window.LOREN_REVIEWS || [];
+        var PAGE = 24;
+        var shown = PAGE;
+        var filterStar = "all";
+        var filterCountry = "all";
+        var query = "";
+
+        var grid = document.getElementById("reviewsGrid");
+        var loadMore = document.getElementById("loadMore");
+        var resultCount = document.getElementById("resultCount");
+
+        // Puan dağılımı
+        var dist = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+        ALL.forEach(function (r) {
+          dist[r.rating]++;
+        });
+        var total = ALL.length;
+        var avg =
+          ALL.reduce(function (s, r) {
+            return s + r.rating;
+          }, 0) / (total || 1);
+        document.getElementById("avgScore").textContent = avg
+          .toFixed(1)
+          .replace(".", ",");
+        document.getElementById("avgStars").innerHTML = window.LorenUtil.stars(
+          Math.round(avg)
+        ).replace('<span class="stars"', "<span");
+        document.getElementById("totalCount").textContent = total;
+
+        var barsHtml = "";
+        [5, 4, 3, 2, 1].forEach(function (star) {
+          var pct = total ? Math.round((dist[star] / total) * 100) : 0;
+          barsHtml +=
+            '<div class="rating-bar"><span>' +
+            star +
+            ' ★</span><div class="bar-track"><div class="bar-fill" data-pct="' +
+            pct +
+            '"></div></div><span>' +
+            pct +
+            "%</span></div>";
+        });
+        document.getElementById("ratingBars").innerHTML = barsHtml;
+        setTimeout(function () {
+          document.querySelectorAll(".bar-fill").forEach(function (b) {
+            b.style.width = b.getAttribute("data-pct") + "%";
+          });
+        }, 200);
+
+        // Ülke filtresi pill'leri
+        var countries = (window.LOREN_REVIEW_COUNTRIES || []).map(function (c) {
+          return c.name;
+        });
+        var cpHtml =
+          '<button class="pill active" data-country="all">Tüm Ülkeler</button>';
+        countries.forEach(function (c) {
+          cpHtml += '<button class="pill" data-country="' + c + '">' + c + "</button>";
+        });
+        document.getElementById("countryPills").innerHTML = cpHtml;
+
+        function escapeHtml(s) {
+          return s.replace(/[&<>"]/g, function (m) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m];
+          });
+        }
+
+        function cardHtml(r) {
+          return (
+            '<article class="review-card">' +
+            '<div class="review-head">' +
+            '<div class="review-ava" style="background:linear-gradient(135deg,' +
+            r.color[0] +
+            "," +
+            r.color[1] +
+            ')">' +
+            r.initials +
+            "</div>" +
+            '<div class="review-who"><b>' +
+            escapeHtml(r.name) +
+            "</b><small>" +
+            r.city +
+            "</small></div>" +
+            "</div>" +
+            '<div class="review-meta">' +
+            window.LorenUtil.stars(r.rating) +
+            '<span class="review-tag">' +
+            r.flag +
+            " " +
+            r.country +
+            "</span></div>" +
+            '<p class="review-text">' +
+            escapeHtml(r.text) +
+            "</p>" +
+            '<div class="review-foot"><span>' +
+            r.visa +
+            "</span>" +
+            (r.verified
+              ? '<span class="verified"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Doğrulandı</span>'
+              : "<span>" + r.date + "</span>") +
+            "</div>" +
+            "</article>"
+          );
+        }
+
+        function filtered() {
+          return ALL.filter(function (r) {
+            if (filterStar !== "all" && r.rating !== parseInt(filterStar, 10))
+              return false;
+            if (filterCountry !== "all" && r.country !== filterCountry) return false;
+            if (query) {
+              var hay = (
+                r.name +
+                " " +
+                r.country +
+                " " +
+                r.visa +
+                " " +
+                r.city +
+                " " +
+                r.text
+              ).toLowerCase();
+              if (hay.indexOf(query) === -1) return false;
+            }
+            return true;
+          });
+        }
+
+        function render() {
+          var list = filtered();
+          var slice = list.slice(0, shown);
+          grid.innerHTML = slice.map(cardHtml).join("");
+          resultCount.textContent =
+            list.length + " yorumdan " + slice.length + " tanesi gösteriliyor";
+          loadMore.style.display = shown >= list.length ? "none" : "inline-flex";
+        }
+
+        loadMore.addEventListener("click", function () {
+          shown += PAGE;
+          render();
+        });
+
+        document.getElementById("starPills").addEventListener("click", function (e) {
+          var btn = e.target.closest(".pill");
+          if (!btn) return;
+          this.querySelectorAll(".pill").forEach(function (p) {
+            p.classList.remove("active");
+          });
+          btn.classList.add("active");
+          filterStar = btn.getAttribute("data-star");
+          shown = PAGE;
+          render();
+        });
+
+        document
+          .getElementById("countryPills")
+          .addEventListener("click", function (e) {
+            var btn = e.target.closest(".pill");
+            if (!btn) return;
+            this.querySelectorAll(".pill").forEach(function (p) {
+              p.classList.remove("active");
+            });
+            btn.classList.add("active");
+            filterCountry = btn.getAttribute("data-country");
+            shown = PAGE;
+            render();
+          });
+
+        var searchTimer;
+        document
+          .getElementById("reviewSearch")
+          .addEventListener("input", function (e) {
+            clearTimeout(searchTimer);
+            var val = e.target.value.toLowerCase().trim();
+            searchTimer = setTimeout(function () {
+              query = val;
+              shown = PAGE;
+              render();
+            }, 180);
+          });
+
+        render();
+      });
+    </script>
+  </body>
+</html>

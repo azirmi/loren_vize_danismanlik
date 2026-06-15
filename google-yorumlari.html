@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google Yorumları | Loren Vize Deneyimler</title>
+    <meta
+      name="description"
+      content="Loren Vize Danışmanlık için Google üzerinden yapılan değerlendirmeler ve puan ortalaması."
+    />
+    <link rel="icon" href="logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Roboto:wght@500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <div id="header-mount"></div>
+
+    <main>
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <span class="eyebrow" data-reveal>Google Değerlendirmeleri</span>
+            <h2 class="section-title" data-reveal data-delay="1">
+              Google’da <em>5 yıldız</em> deneyimler
+            </h2>
+            <p class="section-sub" data-reveal data-delay="2">
+              Google üzerinden paylaşılan değerlendirmelerden bir seçki ve genel
+              puan ortalamamız.
+            </p>
+          </div>
+
+          <div class="google-summary" data-reveal>
+            <div class="google-logo">
+              <span class="b">G</span><span class="r">o</span><span class="y">o</span><span class="b">g</span><span class="g">l</span><span class="r">e</span>
+            </div>
+            <div class="divider"></div>
+            <div style="text-align:center">
+              <div style="font-family:'Roboto',sans-serif;font-weight:900;font-size:2.4rem;line-height:1;color:var(--navy)">4,9</div>
+              <div class="stars" style="font-size:1.2rem">★★★★★</div>
+            </div>
+            <div class="divider"></div>
+            <div style="text-align:center">
+              <div style="font-weight:700;color:var(--navy);font-size:1.1rem"><span id="gCount">120</span>+ yorum</div>
+              <small style="color:var(--ink-faint)">Google Business Profile</small>
+            </div>
+            <div class="divider"></div>
+            <a class="btn btn-primary" id="gWrite" href="#" target="_blank" rel="noreferrer" style="padding:0.7rem 1.3rem">
+              Google’da Değerlendir
+            </a>
+          </div>
+
+          <div class="reviews-grid" id="googleGrid"></div>
+          <div class="load-more-wrap">
+            <button class="btn btn-ghost" id="gLoadMore">Daha Fazla Göster</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="footer-mount"></div>
+
+    <script src="assets/reviews.js"></script>
+    <script src="assets/site.js"></script>
+    <script>
+      document.addEventListener("loren:ready", function () {
+        // Google yorumu olarak yorum havuzundan 5 yıldızlıların bir kısmını kullan
+        var ALL = (window.LOREN_REVIEWS || []).filter(function (r) {
+          return r.rating === 5;
+        });
+        var GOOGLE = ALL.slice(0, 120);
+        document.getElementById("gCount").textContent = GOOGLE.length;
+
+        var gWrite = document.getElementById("gWrite");
+        if (gWrite)
+          gWrite.href =
+            "https://www.google.com/search?q=Loren+Vize+Dan%C4%B1%C5%9Fmanl%C4%B1k";
+
+        var grid = document.getElementById("googleGrid");
+        var loadMore = document.getElementById("gLoadMore");
+        var PAGE = 24;
+        var shown = PAGE;
+
+        var gMark =
+          '<svg class="gicon" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>';
+
+        function escapeHtml(s) {
+          return s.replace(/[&<>"]/g, function (m) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m];
+          });
+        }
+
+        function cardHtml(r) {
+          return (
+            '<article class="review-card google-card">' +
+            '<div class="review-head">' +
+            '<div class="review-ava" style="background:linear-gradient(135deg,' +
+            r.color[0] +
+            "," +
+            r.color[1] +
+            ')">' +
+            r.initials +
+            "</div>" +
+            '<div class="review-who"><b>' +
+            escapeHtml(r.name) +
+            "</b><small>" +
+            r.date +
+            "</small></div>" +
+            gMark +
+            "</div>" +
+            window.LorenUtil.stars(r.rating) +
+            '<p class="review-text">' +
+            escapeHtml(r.text) +
+            "</p>" +
+            '<div class="review-foot"><span>' +
+            r.flag +
+            " " +
+            r.country +
+            " · " +
+            r.visa +
+            "</span>" +
+            '<span class="verified"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Google</span>' +
+            "</div>" +
+            "</article>"
+          );
+        }
+
+        function render() {
+          var slice = GOOGLE.slice(0, shown);
+          grid.innerHTML = slice.map(cardHtml).join("");
+          loadMore.style.display = shown >= GOOGLE.length ? "none" : "inline-flex";
+        }
+
+        loadMore.addEventListener("click", function () {
+          shown += PAGE;
+          render();
+        });
+
+        render();
+      });
+    </script>
+  </body>
+</html>

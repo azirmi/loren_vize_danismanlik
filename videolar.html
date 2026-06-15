@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Videolar | Loren Vize Deneyimler</title>
+    <meta
+      name="description"
+      content="Loren Vize Danışmanlık ile tamamlanan başvuruların ve teslim anlarının kısa süreç videoları."
+    />
+    <link rel="icon" href="logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Roboto:wght@500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <div id="header-mount"></div>
+
+    <main>
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <span class="eyebrow" data-reveal>Süreç Videoları</span>
+            <h2 class="section-title" data-reveal data-delay="1">
+              Sonuçlar <em>videoyla</em> belgeleniyor
+            </h2>
+            <p class="section-sub" data-reveal data-delay="2">
+              Onaylanan başvurular ve teslim anlarından kısa videolar. Oynatmak
+              için bir karta dokunun.
+            </p>
+          </div>
+
+          <div class="video-grid" id="videoGrid"></div>
+
+          <p class="privacy-note">
+            🎬 Videolar gizlilik gereği kişisel veriler maskelenerek
+            paylaşılmaktadır.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Lightbox -->
+
+    <div id="footer-mount"></div>
+
+    <script src="assets/site.js"></script>
+    <script>
+      document.addEventListener("loren:ready", function () {
+        var TOTAL = 49; // assets/video/1.mp4 ... 49.mp4
+        var SEEK = 2; // ilk 2. saniyenin karesi kapak olur
+
+        var grid = document.getElementById("videoGrid");
+        var cards = "";
+        for (var i = 1; i <= TOTAL; i++) {
+          cards +=
+            '<article class="video-card">' +
+            '<div class="video-frame">' +
+            '<video data-src="assets/video/' +
+            i +
+            '.mp4#t=' +
+            SEEK +
+            '" muted playsinline preload="metadata" controlslist="nodownload nofullscreen noremoteplayback" disablepictureinpicture></video>' +
+            '<button class="play-btn" aria-label="Oynat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>' +
+            "</div>" +
+            "</article>";
+        }
+        grid.innerHTML = cards;
+
+        // 2. saniyeye git, gerçek en-boy oranını uygula
+        function prep(video) {
+          if (video.dataset.loaded) return;
+          video.dataset.loaded = "1";
+          video.src = video.getAttribute("data-src");
+          video.addEventListener(
+            "loadedmetadata",
+            function () {
+              var frame = video.parentElement;
+              if (video.videoWidth && video.videoHeight) {
+                frame.style.aspectRatio = video.videoWidth + " / " + video.videoHeight;
+              }
+              var t = Math.min(SEEK, (video.duration || SEEK) * 0.5);
+              try {
+                video.currentTime = t;
+              } catch (e) {}
+            },
+            { once: true }
+          );
+        }
+
+        var videos = grid.querySelectorAll("video");
+        if ("IntersectionObserver" in window) {
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                  prep(entry.target);
+                  io.unobserve(entry.target);
+                }
+              });
+            },
+            { rootMargin: "300px 0px" }
+          );
+          videos.forEach(function (v) {
+            io.observe(v);
+          });
+        } else {
+          videos.forEach(prep);
+        }
+
+        // Tıklayınca yerinde oynat / durdur
+        grid.addEventListener("click", function (e) {
+          var card = e.target.closest(".video-card");
+          if (!card) return;
+          var video = card.querySelector("video");
+          if (!video) return;
+          prep(video);
+
+          if (video.paused) {
+            // aynı anda açık olan diğer videoları durdur
+            grid.querySelectorAll("video").forEach(function (other) {
+              if (other !== video && !other.paused) {
+                other.pause();
+                other.closest(".video-card").classList.remove("playing");
+              }
+            });
+            video.muted = false;
+            var p = video.play();
+            if (p && p.catch) p.catch(function () {});
+            card.classList.add("playing");
+          } else {
+            video.pause();
+            card.classList.remove("playing");
+          }
+        });
+
+        grid.addEventListener(
+          "ended",
+          function (e) {
+            var card = e.target.closest(".video-card");
+            if (card) card.classList.remove("playing");
+          },
+          true
+        );
+      });
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,4 @@
+Bu klasöre onaylanan pasaport görsellerini ekleyin.
+Dosya adları sırayla olmalı: 1.jpg, 2.jpg, 3.jpg ...
+Kişisel verileri (ad, soyad, pasaport no) bulanıklaştırmayı unutmayın.
+Görsel eklenmezse kart otomatik olarak bayraklı tasarımı gösterir.

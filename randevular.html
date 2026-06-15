@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Randevular | Loren Vize Deneyimler</title>
+    <meta
+      name="description"
+      content="Loren Vize Danışmanlık ile konsolosluk ve başvuru merkezlerinden alınan gerçek vize randevusu kayıtları."
+    />
+    <link rel="icon" href="logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Roboto:wght@500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <div id="header-mount"></div>
+
+    <main>
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <span class="eyebrow" data-reveal>Alınan Randevular</span>
+            <h2 class="section-title" data-reveal data-delay="1">
+              Konsolosluktan <em>bulunan</em> vize randevuları
+            </h2>
+            <p class="section-sub" data-reveal data-delay="2">
+              Başvuru sahipleri adına oluşturulan gerçek randevu kayıtları.
+              Büyütmek için bir karta dokunun; altında hangi ülkenin randevusunun
+              alındığına dair başvuru sahibi yorumunu görebilirsiniz.
+            </p>
+          </div>
+
+          <div class="filter-pills" id="apptPills" style="justify-content:center;margin-bottom:2rem"></div>
+
+          <div class="appt-grid" id="apptGrid"></div>
+
+          <p class="privacy-note">
+            🔒 Tüm randevu kayıtlarında ad, soyad, pasaport numarası ve kişisel
+            veriler gizlilik gereği maskelenmiştir.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="apptLightbox" aria-hidden="true">
+      <div class="lightbox-inner lightbox-inner--img">
+        <button class="lightbox-close" id="apptClose" aria-label="Kapat">×</button>
+        <img id="apptLightboxImg" src="" alt="Randevu kaydı" />
+      </div>
+    </div>
+
+    <div id="footer-mount"></div>
+
+    <script src="assets/experience.js"></script>
+    <script src="assets/site.js"></script>
+    <script>
+      document.addEventListener("loren:ready", function () {
+        var TOTAL = 25; // assets/randevu/1.png ... 25.png
+
+        var items = window.LorenExperience.build({
+          seed: 4242,
+          count: TOTAL,
+          kind: "randevu",
+        });
+        items.forEach(function (it, idx) {
+          it.img = "assets/randevu/" + (idx + 1) + ".png";
+        });
+
+        var grid = document.getElementById("apptGrid");
+        var active = "all";
+
+        function esc(s) {
+          return String(s).replace(/[&<>"]/g, function (m) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m];
+          });
+        }
+
+        function commentHtml(it) {
+          return (
+            '<div class="media-comment">' +
+            '<div class="review-head">' +
+            '<div class="review-ava" style="background:linear-gradient(135deg,' +
+            it.color[0] +
+            "," +
+            it.color[1] +
+            ')">' +
+            it.initials +
+            "</div>" +
+            '<div class="review-who"><b>' +
+            esc(it.name) +
+            "</b><small>" +
+            it.city +
+            "</small></div>" +
+            "</div>" +
+            '<div class="review-meta">' +
+            window.LorenUtil.stars(it.rating) +
+            '<span class="review-tag">' +
+            it.flag +
+            " " +
+            it.country +
+            "</span></div>" +
+            '<p class="review-text">' +
+            esc(it.text) +
+            "</p>" +
+            '<div class="review-foot"><span>' +
+            it.visa +
+            " · Randevu</span>" +
+            (it.verified
+              ? '<span class="verified"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Doğrulandı</span>'
+              : "<span>" + it.date + "</span>") +
+            "</div>" +
+            "</div>"
+          );
+        }
+
+        function cardHtml(it) {
+          return (
+            '<article class="appt-card" data-country="' + it.country + '">' +
+            '<div class="appt-visual" data-full="' + it.img + '">' +
+            '<img src="' + it.img + '" alt="' + it.country + " " + it.visa +
+            ' randevu kaydı" loading="lazy" onerror="this.closest(\'.appt-card\').style.display=\'none\'" />' +
+            '<span class="appt-stamp">✓ Randevu Alındı</span>' +
+            '<span class="appt-zoom"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-3.5-3.5M11 8.5v5M8.5 11h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>' +
+            "</div>" +
+            commentHtml(it) +
+            "</article>"
+          );
+        }
+
+        function render() {
+          var list =
+            active === "all"
+              ? items
+              : items.filter(function (x) {
+                  return x.country === active;
+                });
+          grid.innerHTML = list.map(cardHtml).join("");
+        }
+
+        // Ülke filtresi pill'leri
+        var used = [];
+        items.forEach(function (x) {
+          if (used.indexOf(x.country) === -1) used.push(x.country);
+        });
+        var ph = '<button class="pill active" data-c="all">Tümü</button>';
+        used.forEach(function (c) {
+          ph += '<button class="pill" data-c="' + c + '">' + c + "</button>";
+        });
+        var pills = document.getElementById("apptPills");
+        pills.innerHTML = ph;
+        pills.addEventListener("click", function (e) {
+          var b = e.target.closest(".pill");
+          if (!b) return;
+          this.querySelectorAll(".pill").forEach(function (p) {
+            p.classList.remove("active");
+          });
+          b.classList.add("active");
+          active = b.getAttribute("data-c");
+          render();
+        });
+
+        render();
+
+        // Lightbox (görseli büyüt)
+        var lb = document.getElementById("apptLightbox");
+        var lbImg = document.getElementById("apptLightboxImg");
+        function openLb(src) {
+          lbImg.src = src;
+          lb.classList.add("open");
+          lb.setAttribute("aria-hidden", "false");
+        }
+        function closeLb() {
+          lb.classList.remove("open");
+          lb.setAttribute("aria-hidden", "true");
+          lbImg.src = "";
+        }
+        grid.addEventListener("click", function (e) {
+          var v = e.target.closest(".appt-visual");
+          if (!v) return;
+          openLb(v.getAttribute("data-full"));
+        });
+        document.getElementById("apptClose").addEventListener("click", closeLb);
+        lb.addEventListener("click", function (e) {
+          if (e.target === lb) closeLb();
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") closeLb();
+        });
+      });
+    </script>
+  </body>
+</html>
