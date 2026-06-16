@@ -11,7 +11,7 @@
     "https://wa.me/905415700782?text=Merhaba%2C%20vize%20dan%C4%B1%C5%9Fmanl%C4%B1%C4%9F%C4%B1%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.";
 
   var NAV = [
-    { href: "deneyimler.html", label: "Ana Sayfa" },
+    { href: "index.html", label: "Ana Sayfa" },
     { href: "yorumlar.html", label: "Yorumlar" },
     { href: "google-yorumlari.html", label: "Google Yorumları" },
     { href: "pasaportlar.html", label: "Pasaportlar" },
@@ -21,7 +21,7 @@
 
   function currentPage() {
     var path = location.pathname.split("/").pop();
-    return path && path.length ? path : "deneyimler.html";
+    return path && path.length ? path : "index.html";
   }
 
   function buildHeader() {
@@ -43,7 +43,7 @@
       '<header class="site-header" id="siteHeader">' +
       '<div class="container">' +
       '<nav class="nav" id="siteNav">' +
-      '<a class="nav-brand" href="deneyimler.html">' +
+      '<a class="nav-brand" href="index.html">' +
       '<img src="logo.png" alt="Loren Vize" />' +
       "<span>Loren Vize<small>DENEYİMLER</small></span>" +
       "</a>" +
