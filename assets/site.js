@@ -12,6 +12,7 @@
 
   var NAV = [
     { href: "index.html", label: "Ana Sayfa" },
+    { href: "hakkimizda.html", label: "Hakkımızda" },
     { href: "yorumlar.html", label: "Yorumlar" },
     { href: "google-yorumlari.html", label: "Google Yorumları" },
     { href: "pasaportlar.html", label: "Pasaportlar" },

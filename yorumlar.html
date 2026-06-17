@@ -61,6 +61,71 @@
 
           <!-- Ülke filtresi -->
           <div class="filter-pills" id="countryPills" style="margin-bottom:1.8rem"></div>
+          
+          <div class="review-form-card" data-reveal>
+            <div class="review-form-copy">
+              <span class="review-form-badge">Sen de yorum yap!</span>
+              <h3>Deneyimini birkaç cümleyle paylaş</h3>
+              <p>
+                Bu alan görsel ve etkileşim amaçlıdır. Form şu an canlı yayın
+                akışına bağlı değil; gönderdiğinde yalnızca onay uyarısı gösterir.
+              </p>
+            </div>
+
+            <form class="review-form" id="reviewPromptForm">
+              <div class="review-form-grid">
+                <div class="field">
+                  <label for="reviewerName">Ad Soyad</label>
+                  <input id="reviewerName" name="name" type="text" placeholder="Adınızı yazın" />
+                </div>
+                <div class="field">
+                  <label for="reviewerTopic">Ülke / Vize Türü</label>
+                  <input
+                    id="reviewerTopic"
+                    name="topic"
+                    type="text"
+                    placeholder="Örn. İngiltere / Ziyaretçi Vizesi"
+                  />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="reviewerText">Yorumunuz</label>
+                <textarea
+                  id="reviewerText"
+                  name="text"
+                  placeholder="Süreçte yaşadığınız deneyimi buraya yazın..."
+                ></textarea>
+              </div>
+
+              <div class="review-form-actions">
+                <p class="review-form-note">
+                  Gönderilen yorumlar burada otomatik yayınlanmaz; sadece onay
+                  alındı bildirimi gösterilir.
+                </p>
+                <button class="btn btn-primary" type="submit">
+                  Yorumu Onaya Gönder
+                </button>
+              </div>
+            </form>
+
+            <div class="review-toast" id="reviewToast" aria-live="polite" aria-hidden="true">
+              <div class="review-toast-icon" id="reviewToastIcon">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <div class="review-toast-copy">
+                <strong id="reviewToastTitle">Yorumunuz alındı</strong>
+                <p id="reviewToastMessage">Mesajınız başarıyla kaydedildi.</p>
+              </div>
+              <button class="review-toast-close" id="reviewToastClose" type="button" aria-label="Bildirimi kapat">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
 
           <div class="reviews-grid" id="reviewsGrid"></div>
           <p class="muted-count" id="resultCount"></p>
@@ -256,6 +321,68 @@
               render();
             }, 180);
           });
+        
+        var reviewForm = document.getElementById("reviewPromptForm");
+        var reviewToast = document.getElementById("reviewToast");
+        var reviewToastTitle = document.getElementById("reviewToastTitle");
+        var reviewToastMessage = document.getElementById("reviewToastMessage");
+        var reviewToastClose = document.getElementById("reviewToastClose");
+        var reviewToastTimer;
+
+        function showReviewToast(kind, title, message) {
+          if (!reviewToast || !reviewToastTitle || !reviewToastMessage) return;
+
+          reviewToast.classList.remove("is-success", "is-error", "is-visible");
+          reviewToast.classList.add(kind === "error" ? "is-error" : "is-success");
+
+          reviewToastTitle.textContent = title;
+          reviewToastMessage.textContent = message;
+          reviewToast.setAttribute("aria-hidden", "false");
+
+          window.clearTimeout(reviewToastTimer);
+
+          window.requestAnimationFrame(function () {
+            reviewToast.classList.add("is-visible");
+          });
+
+          reviewToastTimer = window.setTimeout(function () {
+            reviewToast.classList.remove("is-visible");
+            reviewToast.setAttribute("aria-hidden", "true");
+          }, 4200);
+        }
+
+        if (reviewToastClose) {
+          reviewToastClose.addEventListener("click", function () {
+            window.clearTimeout(reviewToastTimer);
+            reviewToast.classList.remove("is-visible");
+            reviewToast.setAttribute("aria-hidden", "true");
+          });
+        }
+
+        if (reviewForm) {
+          reviewForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            var reviewerName = document.getElementById("reviewerName");
+            var reviewerText = document.getElementById("reviewerText");
+
+            if (!reviewerName.value.trim() || !reviewerText.value.trim()) {
+              showReviewToast(
+                "error",
+                "Eksik bilgi var",
+                "Lütfen adınızı ve yorumunuzu yazın."
+              );
+              return;
+            }
+
+            showReviewToast(
+              "success",
+              "Yorumunuz onaya alındı",
+              "Teşekkürler. Mesajınız incelenmek üzere sıraya eklendi."
+            );
+            reviewForm.reset();
+          });
+        }
 
         render();
       });
