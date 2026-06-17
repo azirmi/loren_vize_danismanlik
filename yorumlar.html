@@ -64,11 +64,14 @@
           
           <div class="review-form-card" data-reveal>
             <div class="review-form-copy">
-              <span class="review-form-badge">Sen de yorum yap!</span>
-              <h3>Deneyimini birkaç cümleyle paylaş</h3>
+              <span class="review-form-badge">SEN DE DENEYİMİNİ PAYLAŞ</span>
+              <h3>Vize Sürecindeki Deneyimini Bizimle Paylaş</h3>
               <p>
-                Bu alan görsel ve etkileşim amaçlıdır. Form şu an canlı yayın
-                akışına bağlı değil; gönderdiğinde yalnızca onay uyarısı gösterir.
+                Alsas Vize ile yaşadığınız başvuru, danışmanlık veya evrak
+                kontrolü sürecine dair deneyiminizi birkaç cümleyle
+                paylaşabilirsiniz. Gönderilen yorumlar ekibimiz tarafından
+                incelendikten sonra uygun görülenler web sitemizde
+                yayınlanabilir.
               </p>
             </div>
 
@@ -94,17 +97,17 @@
                 <textarea
                   id="reviewerText"
                   name="text"
-                  placeholder="Süreçte yaşadığınız deneyimi buraya yazın..."
+                  placeholder="Süreçle ilgili deneyiminizi, aldığınız hizmeti ve memnun kaldığınız noktaları yazabilirsiniz."
                 ></textarea>
               </div>
 
               <div class="review-form-actions">
                 <p class="review-form-note">
-                  Gönderilen yorumlar burada otomatik yayınlanmaz; sadece onay
-                  alındı bildirimi gösterilir.
+                  Yorumunuz otomatik olarak yayınlanmaz. İçerik kontrolü sonrası
+                  uygun bulunan deneyimler web sitemizde paylaşılabilir.
                 </p>
                 <button class="btn btn-primary" type="submit">
-                  Yorumu Onaya Gönder
+                  Deneyimimi Gönder
                 </button>
               </div>
             </form>
@@ -116,8 +119,8 @@
                 </svg>
               </div>
               <div class="review-toast-copy">
-                <strong id="reviewToastTitle">Yorumunuz alındı</strong>
-                <p id="reviewToastMessage">Mesajınız başarıyla kaydedildi.</p>
+                <strong id="reviewToastTitle">Deneyiminiz alındı</strong>
+                <p id="reviewToastMessage">İçeriğiniz inceleme için sıraya alındı.</p>
               </div>
               <button class="review-toast-close" id="reviewToastClose" type="button" aria-label="Bildirimi kapat">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -370,15 +373,15 @@
               showReviewToast(
                 "error",
                 "Eksik bilgi var",
-                "Lütfen adınızı ve yorumunuzu yazın."
+                "Lütfen adınızı ve deneyiminizi yazın."
               );
               return;
             }
 
             showReviewToast(
               "success",
-              "Yorumunuz onaya alındı",
-              "Teşekkürler. Mesajınız incelenmek üzere sıraya eklendi."
+              "Deneyiminiz incelemeye alındı",
+              "Teşekkürler. İçerik kontrolü sonrası uygun bulunan deneyimler web sitemizde paylaşılabilir."
             );
             reviewForm.reset();
           });

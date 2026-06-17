@@ -5,10 +5,13 @@
 (function () {
   "use strict";
 
-  var PHONE = "+90 541 570 07 82";
-  var PHONE_HREF = "tel:+905415700782";
+  var PHONE = "+90 541 569 07 82";
+  var PHONE_HREF = "tel:+905415690782";
+  var EMAIL = "info@alsasvize.com";
+  var EMAIL_HREF = "mailto:info@alsasvize.com";
+  var ADDRESS = "Sugözü Mah. Zamanoğlu Cad. Petek İşhanı B Blok No:4";
   var WHATSAPP =
-    "https://wa.me/905415700782?text=Merhaba%2C%20vize%20dan%C4%B1%C5%9Fmanl%C4%B1%C4%9F%C4%B1%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.";
+    "https://wa.me/905415690782?text=Merhaba%2C%20vize%20dan%C4%B1%C5%9Fmanl%C4%B1%C4%9F%C4%B1%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.";
 
   var NAV = [
     { href: "index.html", label: "Ana Sayfa" },
@@ -86,6 +89,14 @@
       '">' +
       PHONE +
       "</a>" +
+      '<a href="' +
+      EMAIL_HREF +
+      '">' +
+      EMAIL +
+      "</a>" +
+      '<p class="footer-address">' +
+      ADDRESS +
+      "</p>" +
       '<a href="' +
       WHATSAPP +
       '" target="_blank" rel="noreferrer">WhatsApp ile yazın</a>' +
@@ -212,6 +223,9 @@
     },
     phone: PHONE,
     phoneHref: PHONE_HREF,
+    email: EMAIL,
+    emailHref: EMAIL_HREF,
+    address: ADDRESS,
     whatsapp: WHATSAPP,
   };
 

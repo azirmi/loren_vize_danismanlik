@@ -6,7 +6,7 @@
     <title>Hakkımızda | Loren Vize Deneyimler</title>
     <meta
       name="description"
-      content="Loren Vize Danışmanlık hakkında; misyonumuz, vizyonumuz, değerlerimiz ve Alanya ofisimiz hakkında bilgiler."
+      content="Loren Vize Danışmanlık hakkında; misyonumuz, vizyonumuz, değerlerimiz ve Antalya ofisimiz hakkında bilgiler."
     />
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://www.alsasvize.com/hakkimizda.html" />
@@ -41,8 +41,8 @@
             <h2>Vize Danışmanlığında Güvenilir Adresiniz</h2>
             <p>
               LOREN VIZE, vize süreçlerinin yalnızca evrak hazırlamaktan ibaret
-              olmadığını bilen bir anlayışla kurulmuştur. 5 yıllık sektör
-              deneyimi ve 2 yıllık aktif şirket yapısı ile Alanya merkezli
+              olmadığını bilen bir anlayışla kurulmuştur. 7 yıllık sektör
+              deneyimi ve 5 yıllık aktif şirket yapısı ile Antalya merkezli
               olarak faaliyet gösteren firmamız, Türkiye genelinde danışanlarına
               %100 yasal ve şeffaf hizmet sunmaktadır.
             </p>
@@ -66,11 +66,11 @@
 
           <div class="stats about-stats">
             <div class="stat-card" data-reveal>
-              <div class="about-stat-value about-stat-value--crimson" data-count="5" data-suffix=" Yıl">0</div>
+              <div class="about-stat-value about-stat-value--crimson" data-count="7" data-suffix=" Yıl">0</div>
               <div class="stat-label">Sektör Deneyimi</div>
             </div>
             <div class="stat-card" data-reveal data-delay="1">
-              <div class="about-stat-value about-stat-value--crimson" data-count="2" data-suffix=" Yıl">0</div>
+              <div class="about-stat-value about-stat-value--crimson" data-count="5" data-suffix=" Yıl">0</div>
               <div class="stat-label">Aktif Şirket Yapısı</div>
             </div>
             <div class="stat-card" data-reveal data-delay="2">
@@ -259,7 +259,7 @@
             </div>
             <h2 class="section-title" data-reveal>Ofisimiz</h2>
             <p class="section-sub" data-reveal data-delay="1">
-              Alanya merkezde, kolay ulaşılabilir konumda yer alan ofisimizde
+              Antalya merkezde, kolay ulaşılabilir konumda yer alan ofisimizde
               sizleri ağırlamaktan memnuniyet duyarız.
             </p>
           </div>
@@ -325,7 +325,7 @@
             <div class="about-office-copy" data-reveal data-delay="1">
               <h3>Loren Vize Danışmanlık</h3>
               <p>
-                Alanya'nın merkezinde, Eski Antalya Caddesi üzerinde yer alan
+                Antalya'da, Sugözü Mahallesi Zamanoğlu Caddesi üzerinde yer alan
                 ofisimiz, danışanlarımıza yüz yüze görüşme imkanı sunmaktadır.
                 Profesyonel ve samimi ortamımızda vize sürecinizi birlikte
                 planlayalım.
@@ -341,10 +341,7 @@
                   </div>
                   <div>
                     <h4>Adres</h4>
-                    <p>
-                      Eski Antalya Cd. 75, Saray<br />
-                      07400 Alanya/Antalya
-                    </p>
+                    <p id="aboutAddressText">Sugözü Mah. Zamanoğlu Cad. Petek İşhanı B Blok No:4</p>
                   </div>
                 </article>
 
@@ -356,7 +353,7 @@
                   </div>
                   <div>
                     <h4>Telefon</h4>
-                    <a id="aboutPhoneLink" href="tel:+905415700782">0541 570 07 82</a>
+                    <a id="aboutPhoneLink" href="tel:+905415690782">0541 569 07 82</a>
                   </div>
                 </article>
 
@@ -369,7 +366,7 @@
                   </div>
                   <div>
                     <h4>E-posta</h4>
-                    <a href="mailto:lorenvize@gmail.com">lorenvize@gmail.com</a>
+                    <a id="aboutEmailLink" href="mailto:info@alsasvize.com">info@alsasvize.com</a>
                   </div>
                 </article>
               </div>
@@ -402,6 +399,11 @@
         var cta = document.getElementById("aboutCta");
         if (cta && window.LorenUtil) cta.href = window.LorenUtil.whatsapp;
 
+        var addressText = document.getElementById("aboutAddressText");
+        if (addressText && window.LorenUtil) {
+          addressText.textContent = window.LorenUtil.address;
+        }
+
         var phoneLink = document.getElementById("aboutPhoneLink");
         if (phoneLink && window.LorenUtil) {
           phoneLink.href = window.LorenUtil.phoneHref;
@@ -411,6 +413,12 @@
             local = local.replace(/(\d{4})(\d{3})(\d{2})(\d{2})/, "$1 $2 $3 $4");
           }
           phoneLink.textContent = local;
+        }
+
+        var emailLink = document.getElementById("aboutEmailLink");
+        if (emailLink && window.LorenUtil) {
+          emailLink.href = window.LorenUtil.emailHref;
+          emailLink.textContent = window.LorenUtil.email;
         }
 
         var carousel = document.querySelector("[data-office-carousel]");
