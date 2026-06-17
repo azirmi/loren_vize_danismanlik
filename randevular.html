@@ -37,8 +37,6 @@
             </p>
           </div>
 
-          <div class="filter-pills" id="apptPills" style="justify-content:center;margin-bottom:2rem"></div>
-
           <div class="appt-grid" id="apptGrid"></div>
 
           <p class="privacy-note">
@@ -370,7 +368,6 @@
         });
 
         var grid = document.getElementById("apptGrid");
-        var active = "all";
 
         function esc(s) {
           return String(s).replace(/[&<>"]/g, function (m) {
@@ -431,36 +428,8 @@
         }
 
         function render() {
-          var list =
-            active === "all"
-              ? items
-              : items.filter(function (x) {
-                  return x.country === active;
-                });
-          grid.innerHTML = list.map(cardHtml).join("");
+          grid.innerHTML = items.map(cardHtml).join("");
         }
-
-        // Ülke filtresi pill'leri
-        var used = [];
-        items.forEach(function (x) {
-          if (used.indexOf(x.country) === -1) used.push(x.country);
-        });
-        var ph = '<button class="pill active" data-c="all">Tümü</button>';
-        used.forEach(function (c) {
-          ph += '<button class="pill" data-c="' + c + '">' + c + "</button>";
-        });
-        var pills = document.getElementById("apptPills");
-        pills.innerHTML = ph;
-        pills.addEventListener("click", function (e) {
-          var b = e.target.closest(".pill");
-          if (!b) return;
-          this.querySelectorAll(".pill").forEach(function (p) {
-            p.classList.remove("active");
-          });
-          b.classList.add("active");
-          active = b.getAttribute("data-c");
-          render();
-        });
 
         render();
 

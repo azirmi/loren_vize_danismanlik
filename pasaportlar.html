@@ -37,8 +37,6 @@
             </p>
           </div>
 
-          <div class="filter-pills" id="passportPills" style="justify-content:center;margin-bottom:2rem"></div>
-
           <div class="video-grid" id="passportGrid"></div>
 
           <p class="privacy-note">
@@ -717,7 +715,6 @@
         });
 
         var grid = document.getElementById("passportGrid");
-        var active = "all";
         var io = null;
 
         function esc(s) {
@@ -804,37 +801,9 @@
         }
 
         function render() {
-          var list =
-            active === "all"
-              ? items
-              : items.filter(function (x) {
-                  return x.country === active;
-                });
-          grid.innerHTML = list.map(cardHtml).join("");
+          grid.innerHTML = items.map(cardHtml).join("");
           observeVideos();
         }
-
-        // Ülke filtresi pill'leri
-        var used = [];
-        items.forEach(function (x) {
-          if (used.indexOf(x.country) === -1) used.push(x.country);
-        });
-        var ph = '<button class="pill active" data-c="all">Tümü</button>';
-        used.forEach(function (c) {
-          ph += '<button class="pill" data-c="' + c + '">' + c + "</button>";
-        });
-        var pills = document.getElementById("passportPills");
-        pills.innerHTML = ph;
-        pills.addEventListener("click", function (e) {
-          var b = e.target.closest(".pill");
-          if (!b) return;
-          this.querySelectorAll(".pill").forEach(function (p) {
-            p.classList.remove("active");
-          });
-          b.classList.add("active");
-          active = b.getAttribute("data-c");
-          render();
-        });
 
         // Videoyu yerinde oynat / durdur (yorum alanına tıklayınca tetiklenmez)
         grid.addEventListener("click", function (e) {
