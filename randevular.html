@@ -39,6 +39,14 @@
 
           <div class="appt-grid" id="apptGrid"></div>
 
+          <div class="load-more-wrap appt-more-wrap" aria-hidden="true">
+            <div class="btn btn-ghost appt-more-visual">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
+
           <p class="privacy-note">
             🔒 Tüm randevu kayıtlarında ad, soyad, pasaport numarası ve kişisel
             veriler gizlilik gereği maskelenmiştir.
@@ -368,6 +376,7 @@
         });
 
         var grid = document.getElementById("apptGrid");
+        var INITIAL_COUNT = 9;
 
         function esc(s) {
           return String(s).replace(/[&<>"]/g, function (m) {
@@ -428,7 +437,7 @@
         }
 
         function render() {
-          grid.innerHTML = items.map(cardHtml).join("");
+          grid.innerHTML = items.slice(0, INITIAL_COUNT).map(cardHtml).join("");
         }
 
         render();
